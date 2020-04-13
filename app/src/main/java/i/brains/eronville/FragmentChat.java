@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -21,7 +24,7 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-public class FragmentChat extends XFragment {
+public class FragmentChat extends XFragment implements AdapterView.OnItemSelectedListener {
 
     @Override
     public View onFragmentCreate(LayoutInflater inflater, ViewGroup child, Bundle bundle) {
@@ -61,10 +64,15 @@ public class FragmentChat extends XFragment {
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
                     SimpleDraweeView image = v.findViewById(R.id.chat_image);
+                    Spinner status = v.findViewById(R.id.chat_status);
                     ImageView whatsapp = v.findViewById(R.id.chat_whatsapp);
                     ImageView mail = v.findViewById(R.id.chat_mail);
                     ImageView line = v.findViewById(R.id.chat_phone);
 
+                    ArrayAdapter<CharSequence> apartment_adapter = ArrayAdapter.createFromResource(cx, R.array.inspection, R.layout.xml_spinner);
+                    apartment_adapter.setDropDownViewResource(R.layout.xml_spinner);
+                    status.setAdapter(apartment_adapter);
+                    status.setOnItemSelectedListener(FragmentChat.this);
 
                     String str_line = list.get(position).get("line");
                     String str_mail = list.get(position).get("mail");
@@ -104,5 +112,15 @@ public class FragmentChat extends XFragment {
         }
         realm.close();
         return view;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

@@ -972,4 +972,13 @@
         <item>Female</item>
     </string-array>
 
+    <string-array name="inspection">
+        <item>What is the status of this apartment inspection?</item>
+        <item>I was able to get the apartment</item>
+        <item>I was provided another apartment by the agent</item>
+        <item>I do not like this apartment</item>
+        <item>I did not get any apartment from this agent</item>
+        <item>The inspection was canceled</item>
+    </string-array>
+
 </resources>
