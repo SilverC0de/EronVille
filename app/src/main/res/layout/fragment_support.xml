@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Customer Support"
+                android:fontFamily="@font/lead"
+                android:textSize="22sp"
+                android:padding="12dp" />
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                app:lottie_rawRes="@raw/support"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Get in touch with us by sending us a message, it works!"
+                android:textSize="14sp"
+                android:padding="12dp" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/colorText"
+                android:layout_margin="8dp"
+                android:hint="Your Email"
+                android:id="@+id/support_mail"
+                android:textSize="14sp"
+                android:inputType="textEmailAddress"
+                android:background="@drawable/edit" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:textColor="@color/colorText"
+                android:layout_margin="8dp"
+                android:hint="Your Name"
+                android:id="@+id/support_name"
+                android:textSize="14sp"
+                android:background="@drawable/edit" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:padding="12dp"
+                android:textColor="@color/colorText"
+                android:layout_margin="8dp"
+                android:hint="Message"
+                android:id="@+id/support_message"
+                android:textSize="14sp"
+                android:gravity="bottom"
+                android:background="@drawable/edit" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Send Message"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/mail"
+        android:layout_margin="8dp"
+        android:background="@drawable/button"
+        style="?android:attr/borderlessButtonStyle"/>
+</LinearLayout>

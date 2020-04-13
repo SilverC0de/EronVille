@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <item android:id="@+id/nav_item_home"
+        android:icon="@drawable/menu_home"
+        android:title="Home" />
+
+    <item android:id="@+id/nav_item_profile"
+        android:icon="@drawable/menu_profle"
+        android:title="Profile" />
+
+
+    <item android:id="@+id/nav_item_refer"
+        android:icon="@drawable/menu_invite"
+        android:title="Refer a friend" />
+
+    <item android:id="@+id/nav_item_support"
+        android:icon="@drawable/menu_support"
+        android:title="Customer support" />
+
+    <item android:id="@+id/nav_item_faq"
+        android:icon="@drawable/menu_faq"
+        android:title="FAQs" />
+
+    <item android:id="@+id/nav_item_rate"
+        android:icon="@drawable/menu_rate"
+        android:title="Rate this app" />
+
+    <item android:id="@+id/nav_item_privacy"
+        android:icon="@drawable/menu_privacy"
+        android:title="Privacy policy" />
+
+    <item android:id="@+id/nav_item_terms"
+        android:icon="@drawable/menu_terms"
+        android:title="Terms of use" />
+
+    <item android:id="@+id/nav_item_logout"
+        android:icon="@drawable/menu_logout"
+        android:title="Logout" />
+
+    <item android:id="@+id/nav_item_exit"
+        android:icon="@drawable/menu_exit"
+        android:title="Exit EronVille" />
+
+    <item
+        android:title=""
+        android:enabled="false" />
+
+    <item
+        android:title=""
+        android:enabled="false" />
+</menu>

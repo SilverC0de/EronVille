@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorSemiPrimary">#F4F4F4</color>
+    <color name="colorPrimaryDark">#17004C</color>
+    <color name="colorAccent">#0040A1</color>
+    <color name="colorAccentOld">#004CBF</color>
+    <color name="colorTransparent">#00000000</color>
+
+
+    <color name="colorText">#252525</color>
+    <color name="colorTextPro">#000000</color>
+    <color name="colorAsh">#F1F1F1</color>
+    <color name="colorTextHint">#919191</color>
+    <color name="colorSkyBlue">#BBDEFB</color>
+    <color name="colorLighterBlue">#66BBDEFB</color>
+    <color name="colorLightestBlue">#38BBDEFB</color>
+
+
+    <array name="array_dot_active">
+        <item>#CC808080</item>
+        <item>#CC808080</item>
+        <item>#CC808080</item>
+        <item>#CC808080</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>#B3D6D6D6</item>
+        <item>#B3D6D6D6</item>
+        <item>#B3D6D6D6</item>
+        <item>#B3D6D6D6</item>
+    </array>
+</resources>

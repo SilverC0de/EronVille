@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <com.airbnb.lottie.LottieAnimationView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:lottie_rawRes="@raw/refer"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="16sp"
+        android:textColor="@color/colorText"
+        android:text="Refer a friend, share your referral code" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="726728"
+        android:padding="12dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="22sp" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Share code"
+        android:background="@drawable/button"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/agent_mode"
+        android:layout_margin="40dp"
+        style="?attr/borderlessButtonStyle"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+</LinearLayout>
