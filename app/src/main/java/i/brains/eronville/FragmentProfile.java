@@ -62,7 +62,7 @@ public class FragmentProfile extends XFragment implements AdapterView.OnItemSele
 
             saveData(XClass.avi, avi_link);
             XClass.updateUser("avi", avi_link, mail);
-            XClass.upload(fx, avi_progress, avi_path, avi, avi_name);
+            XClass.upload(fx, avi_progress, avi_path, avi, avi_name, "avi");
         }
         super.onActivityResult(requestCode, resultCode, uri);
     }

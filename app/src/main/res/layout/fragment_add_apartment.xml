@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
     android:focusable="true"
@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="Become an agent"
+                android:text="Add an apartment"
                 android:layout_margin="20dp"
                 android:textSize="24sp"
                 android:textColor="@color/colorAccent"
@@ -40,16 +40,44 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_margin="8dp">
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_state"
+                    android:background="@drawable/edit"
+                    android:layout_marginEnd="4dp" />
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/add_city"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/edit" />
+            </LinearLayout>
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/add_apartment_type"
+                android:layout_marginStart="4dp"
+                android:background="@drawable/edit" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="8dp">
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:id="@+id/registerSurname"
+                    android:id="@+id/add_latitude"
                     android:background="@drawable/edit"
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
                     android:paddingStart="8dp"
-                    android:hint="Surname"
+                    android:hint="Latitude"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
                     android:layout_marginEnd="4dp"
                     android:textSize="14sp"
                     android:textColorHint="@color/colorTextHint"
@@ -59,34 +87,22 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:id="@+id/registerOthername"
+                    android:id="@+id/add_longitude"
                     android:layout_marginStart="4dp"
                     android:background="@drawable/edit"
                     android:paddingTop="11dp"
                     android:paddingBottom="11dp"
                     android:paddingStart="8dp"
-                    android:hint="Other names"
+                    android:hint="Longitude"
+                    android:inputType="numberDecimal"
+                    android:maxLength="8"
                     android:textColorHint="@color/colorTextHint"
                     android:textColor="@color/colorAccent" />
             </LinearLayout>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/registerMail"
-                android:inputType="textEmailAddress"
-                android:textSize="14sp"
-                android:background="@drawable/edit"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp"
-                android:layout_margin="8dp"
-                android:paddingStart="8dp"
-                android:hint="Email Address"
-                android:textColorHint="@color/colorTextHint"
-                android:textColor="@color/colorAccent" />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/registerNumber"
+                android:id="@+id/add_price"
                 android:inputType="number"
                 android:background="@drawable/edit"
                 android:textSize="14sp"
@@ -94,56 +110,25 @@
                 android:paddingBottom="11dp"
                 android:layout_margin="8dp"
                 android:paddingStart="8dp"
-                android:hint="Phone Number"
-                android:maxLength="14"
+                android:hint="Price"
+                android:maxLength="12"
                 android:textColorHint="@color/colorTextHint"
                 android:textColor="@color/colorAccent" />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/registerPassword"
-                android:inputType="textPassword"
-                android:textSize="14sp"
-                android:background="@drawable/edit"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp"
-                android:layout_margin="8dp"
-                android:paddingStart="8dp"
-                android:hint="Password"
-                android:textColorHint="@color/colorTextHint"
-                android:textColor="@color/colorAccent" />
+            <ProgressBar
+                android:id="@+id/loader"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="gone"
+                android:layout_gravity="center"/>
         </LinearLayout>
     </ScrollView>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:text="Already an agent? Sign in here"
-        android:textSize="14sp"
-        android:id="@+id/switchAccess"
-        android:textColor="@color/colorAccent"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:gravity="center"
-        android:text="@string/agreement"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="80dp"
-        android:textSize="13sp"
-        android:id="@+id/agreementLinks"
-        android:linksClickable="true"
-        android:visibility="gone"
-        android:textColor="@color/colorPrimaryDark"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="Add apartment"
         android:textColor="@color/colorPrimary"
         android:paddingTop="10dp"
-        android:id="@+id/register"
+        android:id="@+id/add"
         android:paddingBottom="10dp"
         android:layout_margin="8dp"
         android:background="@drawable/button"

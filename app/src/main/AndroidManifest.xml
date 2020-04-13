@@ -29,6 +29,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+
+        <activity
+            android:name=".ActivityAgentAccess"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".ActivityAgentRegister"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ActivityAgent"
             android:launchMode="singleTop"

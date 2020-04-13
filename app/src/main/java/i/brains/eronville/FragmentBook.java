@@ -130,6 +130,21 @@ public class FragmentBook extends XFragment {
 
 
         whatsapp.setOnClickListener(x->{
+            Realm realm = Realm.getDefaultInstance();
+
+            final XChat ch = new XChat();
+            ch.setI(str_i);
+            ch.setImage(str_image);
+            ch.setLine(str_line);
+            ch.setMail(str_mail);
+            ch.setPrice(str_price);
+            ch.setDetails(str_details);
+            ch.setWhatsapp(str_whatsapp);
+            ch.setStamp(String.valueOf(System.currentTimeMillis()));
+            realm.executeTransaction(rm -> rm.copyToRealmOrUpdate(ch));
+
+
+
             String whatsAppRoot = "http://api.whatsapp.com/";
             String number = "send?phone=" + str_whatsapp;
             String text = "&text=Hello, I would love to get an apartment, i found your number on EronVille app.";
@@ -138,8 +153,24 @@ public class FragmentBook extends XFragment {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse(uri));
             startActivity(intent);
+
+            realm.close();
         });
         mail.setOnClickListener(x->{
+            Realm realm = Realm.getDefaultInstance();
+
+            final XChat ch = new XChat();
+            ch.setI(str_i);
+            ch.setImage(str_image);
+            ch.setLine(str_line);
+            ch.setMail(str_mail);
+            ch.setPrice(str_price);
+            ch.setDetails(str_details);
+            ch.setWhatsapp(str_whatsapp);
+            ch.setStamp(String.valueOf(System.currentTimeMillis()));
+            realm.executeTransaction(rm -> rm.copyToRealmOrUpdate(ch));
+
+
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{str_mail});
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, "I need to get an apartment from you via EronVille");
@@ -150,11 +181,29 @@ public class FragmentBook extends XFragment {
             } catch (android.content.ActivityNotFoundException ignored) {
                 Toast.makeText(fx, "No email clients installed", Toast.LENGTH_SHORT).show();
             }
+
+
+            realm.close();
         });
         phone.setOnClickListener(x->{
+            Realm realm = Realm.getDefaultInstance();
+
+            final XChat ch = new XChat();
+            ch.setI(str_i);
+            ch.setImage(str_image);
+            ch.setLine(str_line);
+            ch.setMail(str_mail);
+            ch.setPrice(str_price);
+            ch.setDetails(str_details);
+            ch.setWhatsapp(str_whatsapp);
+            ch.setStamp(String.valueOf(System.currentTimeMillis()));
+            realm.executeTransaction(rm -> rm.copyToRealmOrUpdate(ch));
+
             Intent intent = new Intent(Intent.ACTION_DIAL);
             intent.setData(Uri.parse("tel:" + str_line));
             startActivity(intent);
+
+            realm.close();
         });
 
 
@@ -204,6 +253,8 @@ public class FragmentBook extends XFragment {
             send.setBackgroundResource(R.drawable.button_off);
             send.setEnabled(false);
             send.setText("Inspection request has been sent");
+
+            realm.close();
         });
 
         back.setOnClickListener(v-> fm.popBackStack());

@@ -2,13 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorPrimary">
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimary"
-        android:text="Show list"
-        android:background="@color/colorAccent" />
     <fragment
         android:id="@+id/map"
         android:layout_width="match_parent"
@@ -41,4 +36,25 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:id="@+id/filter_frame"/>
+    <TextView
+        android:id="@+id/map_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextPro"
+        android:textSize="14sp"
+        android:padding="6dp"
+        android:layout_margin="20dp"
+        android:alpha=".7"
+        android:gravity="center"
+        android:layout_alignParentEnd="true"
+        android:text="Showing all apartments"
+        android:background="@drawable/white_cover" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        app:lottie_rawRes="@raw/loading"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"/>
 </RelativeLayout>

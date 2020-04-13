@@ -78,7 +78,7 @@ public class ActivityView extends XActivity {
         //beginning of footer
         Button agent_mode = nav.findViewById(R.id.agent_mode);
         agent_mode.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ActivityAgent.class));
+            startActivity(new Intent(getApplicationContext(), ActivityAgentAccess.class));
         });
         //end of footer
 

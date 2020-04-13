@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.android.volley.Request;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,31 +34,30 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class FragmentMap extends XFragment implements OnMapReadyCallback {
 
     private GoogleMap map;
+    private LottieAnimationView loader;
+    private String state = "", city = "";
+    private int page = 0;
+    private TextView info;
+
+    List<XBase> list;
 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-
-        LatLng latLng = new LatLng(7.401590, 3.907290);
-
-        MarkerOptions house1 = new MarkerOptions().position(new LatLng(7.401590, 3.907290)).icon(mapIcon(cx)).alpha(.8f);
-        MarkerOptions house2 = new MarkerOptions().position(new LatLng(7.403530, 3.904011)).icon(mapIcon(cx)).alpha(.8f);
-
-        map.addMarker(house1);
-        map.addMarker(house2);
-
-
-        map.moveCamera(CameraUpdateFactory.newLatLng(latLng)); //for ibadan, add bounds
-        map.moveCamera(CameraUpdateFactory.zoomTo(14f));
-        map.setMinZoomPreference(4.0f);
-        map.setMaxZoomPreference(map.getMaxZoomLevel());
+        loadMarkers(page);
     }
 
 
@@ -62,8 +67,21 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_map, child, false);
         ImageView filter = view.findViewById(R.id.filter_view);
 
+        list = new ArrayList<>();
+        loader = view.findViewById(R.id.loader);
+        info = view.findViewById(R.id.map_status);
 
-        initializeMap();
+        Bundle bnd = getArguments();
+        if (bnd != null) {
+            state = getArguments().getString("state");
+            city = getArguments().getString("city");
+            if (city.equals(" ")) info.setText(String.format("Showing apartments in %s", state));
+            else info.setText(String.format("Showing apartments in %s, %s", city, state));
+        }
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) mapFragment.getMapAsync(this);
+
         filter.setOnClickListener(v ->{
             FragmentMap.Lookup lookup = new FragmentMap.Lookup();
             fm.beginTransaction().replace(R.id.filter_frame, lookup).addToBackStack(null).commit();
@@ -71,10 +89,44 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
         return view;
     }
 
-    private void initializeMap(){
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) mapFragment.getMapAsync(this);
+    private void loadMarkers(int batch){
+        StringRequest request = new StringRequest(Request.Method.GET, XClass.apiApartments + "?batch=" + batch + "&state=" + state + "&city=" + city, response -> {
+            try{
+                loader.setVisibility(View.GONE);
+                JSONArray array = new JSONArray(response);
+                if (array.length() == 0){
+                    //empty
+                    Toast.makeText(fx, "No apartments here owned by us", Toast.LENGTH_SHORT).show();
+                } else {
+                    for (int i = 0; i < array.length(); i++){
+                        JSONObject object = array.getJSONObject(i);
+                        String x = object.getString("i");
+                        String city = object.getString("city");
+                        String type = object.getString("type");
+                        String price = object.getString("price");
+                        String image = object.getString("image");
+                        String agent = object.getString("agent"); //mail
+                        String agent_line = object.getString("agent_line");
+                        String agent_whatsapp = object.getString("agent_whatsapp");
 
+                        double latitude = object.getDouble("latitude");
+                        double longitude = object.getDouble("longitude");
+
+                        MarkerOptions options = new MarkerOptions().position(new LatLng(latitude, longitude)).icon(mapIcon(cx)).alpha(.8f);
+
+                        map.addMarker(options);
+                        list.add(new XBase(x, city, type, price, image, agent, agent_line, agent_whatsapp, latitude, longitude));
+                    }
+                    map.setMinZoomPreference(4.0f);
+                    map.setMaxZoomPreference(map.getMaxZoomLevel());
+                    map.moveCamera(CameraUpdateFactory.zoomTo(5f));
+                    map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(9.0820, 8.6753))); //Nigeria
+                    if (array.length() > 18) new Handler().post(() -> loadMarkers(page++));
+                }
+            } catch (JSONException ignored){}
+        }, error -> loadMarkers(page++));
+        Volley.newRequestQueue(cx).add(request);
+        Volley.newRequestQueue(cx).getCache().clear();
     }
 
     private BitmapDescriptor mapIcon(Context context) {
@@ -93,7 +145,7 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
 
     public static class Lookup extends XFragment implements AdapterView.OnItemSelectedListener {
 
-        private String city = "", x_min = "0", x_max = "0";
+        private String state = "", city = "", x_min = "0", x_max = "0";
         private Spinner city_spinner;
 
         @Override
@@ -137,6 +189,7 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
                     FragmentMap map = new FragmentMap();
 
                     Bundle bnd = new Bundle();
+                    bnd.putString("state", state);
                     bnd.putString("city", city);
                     bnd.putString("min", x_min);
                     bnd.putString("max", x_max);
@@ -276,6 +329,7 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
                     state_adapter.setDropDownViewResource(R.layout.xml_spinner);
                     city_spinner.setAdapter(state_adapter);
                     city_spinner.setOnItemSelectedListener(this);
+                    state = parent.getItemAtPosition(position).toString();
                     break;
                 case R.id.filter_city:
                     city = parent.getItemAtPosition(position).toString();

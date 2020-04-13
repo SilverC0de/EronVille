@@ -8,19 +8,23 @@ import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +35,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -63,12 +69,20 @@ public class XClass {
     static String notification = "notifd";
 
 
+    static String agent = "agt";
+    static String agent_line = "agtln";
+    static String agent_whatsapp = "agtwh";
 
 
 
+
+
+    static String apiAddApartment = api + "addapartment.php";
     static String apiRegister = api + "register.php";
+    static String apiAgentRegister = api + "agentregister.php";
     static String apiApartments = api + "index.php";
     static String apiAccess = api + "access.php";
+    static String apiAgentAccess = api + "agentaccess.php";
     static String apiSendMail = api + "bluemail.php";
     static String apiImages = api + "image.php";
 
@@ -101,6 +115,28 @@ public class XClass {
     }
 
 
+
+
+    static void addImageOnServer(String key, String value, String mail){
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = new FormBody.Builder()
+                .add("key", key)
+                .add("value", value)
+                .add("mail", mail).build();
+        Request request = new Request.Builder().post(body).url(XClass.api + "update.php").build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+
+            }
+        });
+    }
+
     static void updateUser(String key, String value, String mail){
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
@@ -120,7 +156,8 @@ public class XClass {
             }
         });
     }
-    static void upload(final Activity face, final ProgressBar progress, final String file, final SimpleDraweeView avatar, final String name){
+
+    static void upload(final Activity face, final ProgressBar progress, final String file, final SimpleDraweeView avatar, final String name, final String type){
         if (ContextCompat.checkSelfPermission(face.getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(face, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
             progress.setVisibility(View.GONE);
@@ -129,7 +166,7 @@ public class XClass {
                 @Override
                 protected Void doInBackground(Void... voids) {
                     int responseCode;
-                    String network = "https://cdn.eronville.com/index.php?action=" + "avi" + "&name=" + name;
+                    String network = "https://cdn.eronville.com/index.php?action=" + type + "&name=" + name;
                     HttpURLConnection conn;
                     DataOutputStream dos;
                     String lineEnd = "\r\n";
@@ -209,5 +246,4 @@ public class XClass {
             new load().execute();
         }
     }
-
 }
