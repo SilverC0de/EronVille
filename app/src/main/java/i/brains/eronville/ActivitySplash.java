@@ -11,21 +11,16 @@ public class ActivitySplash extends XActivity {
         setContentView(R.layout.activity_splash);
         new Handler().postDelayed(() -> {
             String mail = data.getString(XClass.mail, XClass.outcast);
-            boolean isNew = data.getBoolean(XClass.inducted, false);
             boolean isOnline = data.getBoolean(XClass.online, false);
 
             if (isOnline) {
                 if (mail.isEmpty()){
-                    startActivity(new Intent(getApplicationContext(), ActivityAccess.class));
+                    startActivity(new Intent(getApplicationContext(), ActivityIntro.class));
                 } else {
                     startActivity(new Intent(getApplicationContext(), ActivityView.class));
                 }
             } else {
-                if (isNew){
-                    startActivity(new Intent(getApplicationContext(), ActivityAccess.class));
-                } else {
-                    startActivity(new Intent(getApplicationContext(), ActivityIntro.class));
-                }
+                startActivity(new Intent(getApplicationContext(), ActivityIntro.class));
             }
             finish();
         }, 2000);

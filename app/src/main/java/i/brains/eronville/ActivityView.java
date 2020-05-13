@@ -27,145 +27,38 @@ import com.google.android.material.navigation.NavigationView;
 
 public class ActivityView extends XActivity {
 
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle toggle;
-    Toolbar toolbar;
-    NavigationView nav;
-
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
+
     }
 
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        toggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        toggle.onConfigurationChanged(newConfig);
-    }
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view);
 
-        initializeDrawer();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentMap()).commit();
+
         bottomNavigation();
-        getSupportFragmentManager().beginTransaction().add(R.id.fragment, new FragmentHome()).commit();
-    }
-
-    private void initializeDrawer(){
-
-        drawerLayout = findViewById(R.id.drawer_layout);
-        toolbar = findViewById(R.id.toolbar);
-        nav = findViewById(R.id.navigation_view); //get footer from here
-        toggle = new ActionBarDrawerToggle(this, drawerLayout,toolbar, R.string.app_name, R.string.app_name);
-        toggle.setDrawerIndicatorEnabled(false);
-        Drawable menu = ResourcesCompat.getDrawable(getResources(), R.drawable.menu, getApplicationContext().getTheme());
-        toggle.setHomeAsUpIndicator(menu);
-        toggle.setToolbarNavigationClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
-
-        //beginning of footer
-        Button agent_mode = nav.findViewById(R.id.agent_mode);
-        agent_mode.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ActivityAgentAccess.class));
-        });
-        //end of footer
-
-        nav.setNavigationItemSelectedListener(menuItem -> {
-            switch (menuItem.getItemId()){
-                case R.id.nav_item_home:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentHome()).commit();
-                    break;
-                case R.id.nav_item_profile:
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentProfile()).commit();
-                    break;
-                case R.id.nav_item_refer:
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment, new FragmentInvite()).addToBackStack(null).commit();
-                    break;
-                case R.id.nav_item_support:
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment, new FragmentSupport()).addToBackStack(null).commit();
-                    break;
-                case R.id.nav_item_faq:
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragment, new FragmentFAQ()).addToBackStack(null).commit();
-                    break;
-                case R.id.nav_item_rate:
-                    Uri uri = Uri.parse("market://details?id=" + getPackageName());
-                    Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
-                    goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
-                            Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
-                            Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
-                    try {
-                        startActivity(goToMarket);
-                    } catch (ActivityNotFoundException e) {
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
-                    }
-                    break;
-                case R.id.nav_item_privacy:
-                    Intent privacyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://eronville.com/privacy"));
-                    startActivity(privacyIntent);
-                    break;
-                case R.id.nav_item_terms:
-                    Intent termsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://eronville.com/terms"));
-                    startActivity(termsIntent);
-                    break;
-                case R.id.nav_item_logout:
-                    SharedPreferences.Editor e = data.edit();
-                    e.putBoolean(XClass.online, false);
-                    e.apply();
-
-                    startActivity(new Intent(getApplicationContext(), ActivityAccess.class));
-                    finish();
-                    break;
-                case R.id.nav_item_exit:
-                    finishAffinity();
-                    break;
-            }
-            drawerLayout.closeDrawer(GravityCompat.START);
-            return true;
-        });
-        nav.setItemIconTintList(null);
     }
 
     private void bottomNavigation(){
-        ImageView home = findViewById(R.id.home);
         ImageView map = findViewById(R.id.map);
         ImageView chat = findViewById(R.id.chat);
         ImageView profile = findViewById(R.id.profile);
+        ImageView more = findViewById(R.id.more);
 
-        home.setEnabled(false);
-        home.setOnClickListener(v -> {
-            home.setBackgroundColor(getResources().getColor(R.color.colorLighterBlue));
-            map.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-            chat.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-            profile.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-
-
-            home.setEnabled(false);
-            map.setEnabled(true);
-            chat.setEnabled(true);
-            profile.setEnabled(true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentHome()).commit();
-        });
+        map.setEnabled(false);
 
         map.setOnClickListener(v -> {
-            home.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+            more.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             map.setBackgroundColor(getResources().getColor(R.color.colorLighterBlue));
             chat.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             profile.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
 
-            home.setEnabled(true);
+            more.setEnabled(true);
             map.setEnabled(false);
             chat.setEnabled(true);
             profile.setEnabled(true);
@@ -174,13 +67,13 @@ public class ActivityView extends XActivity {
         });
 
         chat.setOnClickListener(v -> {
-            home.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+            more.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             map.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             chat.setBackgroundColor(getResources().getColor(R.color.colorLighterBlue));
             profile.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
 
 
-            home.setEnabled(true);
+            more.setEnabled(true);
             map.setEnabled(true);
             chat.setEnabled(false);
             profile.setEnabled(true);
@@ -190,18 +83,32 @@ public class ActivityView extends XActivity {
         });
 
         profile.setOnClickListener(v -> {
-            home.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+            more.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             map.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             chat.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             profile.setBackgroundColor(getResources().getColor(R.color.colorLighterBlue));
 
 
-            home.setEnabled(true);
+            more.setEnabled(true);
             map.setEnabled(true);
             chat.setEnabled(true);
             profile.setEnabled(false);
 
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentProfile()).commit();
         });
+        more.setOnClickListener(v -> {
+            more.setBackgroundColor(getResources().getColor(R.color.colorLighterBlue));
+            map.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+            chat.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+            profile.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+
+
+            more.setEnabled(false);
+            map.setEnabled(true);
+            chat.setEnabled(true);
+            profile.setEnabled(true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment, new FragmentMore()).commit();
+        });
+
     }
 }

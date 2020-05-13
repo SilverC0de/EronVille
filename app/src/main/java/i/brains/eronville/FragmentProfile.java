@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -36,10 +37,10 @@ public class FragmentProfile extends XFragment implements AdapterView.OnItemSele
     private String dob, mail, avi_path;
     private Spinner edit_gender;
     private EditText edit_name, edit_number, edit_address;
-    private ImageView pencil_name, pencil_number, pencil_address;
     private TextView account_name;
     private TextView edit_dob;
     private SimpleDraweeView avi;
+    private Button save;
     private ProgressBar avi_progress;
 
 
@@ -75,6 +76,7 @@ public class FragmentProfile extends XFragment implements AdapterView.OnItemSele
 
         TextView account_mail = view.findViewById(R.id.account_mail);
 
+        save = view.findViewById(R.id.save);
         mail = data.getString(XClass.mail, null);
 
         avi = view.findViewById(R.id.avi);
@@ -87,9 +89,6 @@ public class FragmentProfile extends XFragment implements AdapterView.OnItemSele
         edit_gender = view.findViewById(R.id.edit_gender);
         edit_dob = view.findViewById(R.id.edit_dob);
 
-        pencil_name = view.findViewById(R.id.pencil_name);
-        pencil_number = view.findViewById(R.id.pencil_number);
-        pencil_address = view.findViewById(R.id.pencil_address);
 
         String xname = data.getString(XClass.name, XClass.outcast);
         String xmail = data.getString(XClass.mail, XClass.outcast);
@@ -113,6 +112,36 @@ public class FragmentProfile extends XFragment implements AdapterView.OnItemSele
             startActivityForResult(addImage, 22);
         });
 
+        save.setOnClickListener(v-> {
+            String name = edit_name.getText().toString().trim();
+            edit_name.setEnabled(false);
+
+            account_name.setText(name);
+
+            saveData(XClass.name, name);
+            XClass.updateUser("name", name, mail);
+
+
+
+
+            String number = edit_number.getText().toString().trim();
+            edit_number.setEnabled(false);
+
+            saveData(XClass.number, number);
+            XClass.updateUser("line", number, mail);
+
+
+
+
+
+            String addr = edit_address.getText().toString().trim();
+            edit_address.setEnabled(false);
+
+            saveData(XClass.address, addr);
+            XClass.updateUser("address", addr, mail);
+
+            save.setText("Saved");
+        });
         initializeEditor();
         return view;
     }
@@ -124,74 +153,9 @@ public class FragmentProfile extends XFragment implements AdapterView.OnItemSele
         edit_gender.setAdapter(bed_adapter);
 
 
-        pencil_name.setOnClickListener(v -> {
-            edit_name.setEnabled(true);
 
-            new Handler().post(() -> {
-                edit_name.requestFocus();
-                InputMethodManager im = (InputMethodManager) cx.getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (im != null) im.showSoftInput(edit_name, InputMethodManager.SHOW_IMPLICIT);
-            });
 
-            pencil_name.setImageResource(R.drawable.save);
-            pencil_name.setOnClickListener(v13 -> {
-                pencil_name.setImageResource(R.drawable.pencil);
 
-                String name = edit_name.getText().toString().trim();
-                edit_name.setEnabled(false);
-
-                account_name.setText(name);
-
-                saveData(XClass.name, name);
-                XClass.updateUser("name", name, mail);
-            });
-        });
-
-        pencil_number.setOnClickListener(v -> {
-            edit_number.setEnabled(true);
-
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    edit_number.requestFocus();
-                    InputMethodManager im = (InputMethodManager) cx.getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (im != null)
-                        im.showSoftInput(edit_number, InputMethodManager.SHOW_IMPLICIT);
-                }
-            });
-
-            pencil_number.setImageResource(R.drawable.save);
-            pencil_number.setOnClickListener(v12 -> {
-                pencil_number.setImageResource(R.drawable.pencil);
-
-                String number = edit_number.getText().toString().trim();
-                edit_number.setEnabled(false);
-
-                saveData(XClass.number, number);
-                XClass.updateUser("line", number, mail);
-            });
-        });
-
-        pencil_address.setOnClickListener(v -> {
-            edit_address.setEnabled(true);
-
-            new Handler().post(() -> {
-                edit_address.requestFocus();
-                InputMethodManager im = (InputMethodManager) cx.getSystemService(Context.INPUT_METHOD_SERVICE);
-                if (im != null) im.showSoftInput(edit_address, InputMethodManager.SHOW_IMPLICIT);
-            });
-
-            pencil_address.setImageResource(R.drawable.save);
-            pencil_address.setOnClickListener(v1 -> {
-                pencil_address.setImageResource(R.drawable.pencil);
-
-                String addr = edit_address.getText().toString().trim();
-                edit_address.setEnabled(false);
-
-                saveData(XClass.address, addr);
-                XClass.updateUser("address", addr, mail);
-            });
-        });
 
 
         edit_gender.setOnItemSelectedListener(this);

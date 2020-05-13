@@ -27,6 +27,14 @@ public class ActivityViewer extends XActivity {
                 case "book":
                     getSupportFragmentManager().beginTransaction().add(R.id.viewer, new FragmentBook()).addToBackStack(null).commit();
                     break;
+                case "refer":
+                    getSupportFragmentManager().beginTransaction().add(R.id.viewer, new FragmentInvite()).addToBackStack(null).commit();
+                    break;
+                case "support":
+                    getSupportFragmentManager().beginTransaction().add(R.id.viewer, new FragmentSupport()).addToBackStack(null).commit();                    break;
+                case "faq":
+                    getSupportFragmentManager().beginTransaction().add(R.id.viewer, new FragmentFAQ()).addToBackStack(null).commit();
+                    break;
             }
         }
     }

@@ -51,7 +51,6 @@ public class XClass {
     private static final String api = "https://api.eronville.com/" + buildAPI + "/";
     private static final String cdn = "https://cdn.eronville.com/" + buildAPI + "/index.php";
     static String sharedPreferences = "spf";
-    static String inducted = "intro";
 
     static String mail = "mail";
     static String surname = "surname";

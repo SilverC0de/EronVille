@@ -25,6 +25,7 @@ public class ActivityIntro extends XActivity {
     int[] slides;
     TextView[] dots;
     SlideAdapter slideAdapter;
+    Button sign_in, register;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,8 @@ public class ActivityIntro extends XActivity {
         skip = findViewById(R.id.intro_skip);
         next = findViewById(R.id.intro_next);
 
+        sign_in = findViewById(R.id.sign_in);
+        register = findViewById(R.id.register);
 
 
         slides = new int[]{
@@ -45,6 +48,14 @@ public class ActivityIntro extends XActivity {
                 R.layout.slide4
         };
 
+        sign_in.setOnClickListener(v-> {
+            startActivity(new Intent(getApplicationContext(), ActivityAccess.class));
+            finish();
+        });
+        register.setOnClickListener(v-> {
+            startActivity(new Intent(getApplicationContext(), ActivityRegister.class));
+            finish();
+        });
 
         slideAdapter = new SlideAdapter();
         slide.setAdapter(slideAdapter);
@@ -52,9 +63,6 @@ public class ActivityIntro extends XActivity {
 
 
         skip.setOnClickListener(v -> {
-            SharedPreferences.Editor e = data.edit();
-            e.putBoolean(XClass.inducted, true);
-            e.apply();
             startActivity(new Intent(getApplicationContext(), ActivityRegister.class));
             finish();
         });
@@ -63,9 +71,6 @@ public class ActivityIntro extends XActivity {
             if (current < slides.length) {
                 slide.setCurrentItem(current);
             } else {
-                SharedPreferences.Editor e = data.edit();
-                e.putBoolean(XClass.inducted, true);
-                e.apply();
                 startActivity(new Intent(getApplicationContext(), ActivityRegister.class));
                 finish();
             }
@@ -83,7 +88,7 @@ public class ActivityIntro extends XActivity {
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.gravity = Gravity.CENTER;
             dots[i] = new TextView(this);
-            dots[i].setText(String.format("%s  ", Html.fromHtml("  " + getResources().getString(R.string.bullet))));
+            dots[i].setText(String.format("%s  ", Html.fromHtml("  " + getResources().getString(R.string.bullet) + "  ")));
             dots[i].setTextSize(22);
             dots[i].setBackgroundColor(getResources().getColor(R.color.colorTransparent));
             dots[i].setGravity(Gravity.CENTER);

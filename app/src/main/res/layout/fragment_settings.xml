@@ -1,0 +1,28 @@
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="bottom"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Agent Mode"
+        android:background="@drawable/button"
+        android:textColor="@color/colorPrimary"
+        android:id="@+id/agent_mode"
+        android:layout_margin="8dp"
+        style="?attr/borderlessButtonStyle"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="12sp"
+        android:textColor="@color/colorAccent"
+        android:text="EronVille v0.98"
+        android:padding="4dp"/>
+</LinearLayout>

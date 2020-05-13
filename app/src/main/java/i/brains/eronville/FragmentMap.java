@@ -125,8 +125,10 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
                 }
             } catch (JSONException ignored){}
         }, error -> loadMarkers(page++));
-        Volley.newRequestQueue(cx).add(request);
-        Volley.newRequestQueue(cx).getCache().clear();
+        try {
+            Volley.newRequestQueue(cx).add(request);
+            Volley.newRequestQueue(cx).getCache().clear();
+        } catch (OutOfMemoryError ignored){}
     }
 
     private BitmapDescriptor mapIcon(Context context) {
