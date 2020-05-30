@@ -47,7 +47,7 @@
         android:alpha=".7"
         android:gravity="center"
         android:layout_alignParentEnd="true"
-        android:text="Showing all apartments"
+        android:text="Showing all agents"
         android:background="@drawable/white_cover" />
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loader"

@@ -148,16 +148,14 @@ public class FragmentProfile extends XFragment implements AdapterView.OnItemSele
 
 
     private void initializeEditor() {
-        ArrayAdapter<CharSequence> bed_adapter = ArrayAdapter.createFromResource(cx, R.array.gender, R.layout.xml_spinner);
-        bed_adapter.setDropDownViewResource(R.layout.xml_spinner);
-        edit_gender.setAdapter(bed_adapter);
-
-
-
-
-
-
-
+        String xgender = data.getString(XClass.gender, null);
+        ArrayAdapter<CharSequence> gender_adapter = ArrayAdapter.createFromResource(cx, R.array.gender, R.layout.xml_spinner);
+        gender_adapter.setDropDownViewResource(R.layout.xml_spinner);
+        edit_gender.setAdapter(gender_adapter);
+        if (xgender != null) {
+            int spinnerPosition = gender_adapter.getPosition(xgender);
+            edit_gender.setSelection(spinnerPosition);
+        }
         edit_gender.setOnItemSelectedListener(this);
 
         edit_dob.setOnClickListener(v -> {

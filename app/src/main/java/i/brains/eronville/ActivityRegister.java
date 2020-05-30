@@ -56,7 +56,7 @@ public class ActivityRegister extends XActivity {
 
         switchAccess.setOnClickListener( v->{
             startActivity(new Intent(getApplicationContext(), ActivityAccess.class));
-            finish();
+            finishAffinity();
         });
     }
 

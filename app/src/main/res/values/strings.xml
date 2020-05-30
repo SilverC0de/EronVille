@@ -7,6 +7,7 @@
     <string name="answer3">The inspection costs just 1% of the apartment you will get</string>
     <string name="answer4">Yes, you can pay the agent directly from the app after you have seen the apartment physically, we would issue you a
         receipt and keep you updated on the apartment at all time</string>
+    <string name="dummy">Details about agent Mike, An information agent is an agent that has access to at least one, and potentially many information sources, and is able to collate and manipulate information obtained from these sources in order to answer queries posed by users and other information agents (the network of interoperating information sources are often referred to as intelligent and cooperative information systems [Papazoglou et al., 1992]). The information sources may be of many types, including, for example, traditional databases as well as other information agents. Finding a solution to a query might involve an agent accessing information sources over a network. A typical scenario is that of a user who has heard about somebody at Stanford who has proposed something called agent-oriented programming. The agent is asked to investigate, and, after a careful search of various FTP sites, returns with an appropriate technical report, as well as the name and contact details of the researcher involved.</string>
 
 
     <string-array name="state">
@@ -980,7 +981,7 @@
     </string-array>
 
     <string-array name="inspection">
-        <item>What is the status of this apartment inspection?</item>
+        <item>What is the status of the inspection with this agent?</item>
         <item>I was able to get the apartment</item>
         <item>I was provided another apartment by the agent</item>
         <item>I do not like this apartment</item>

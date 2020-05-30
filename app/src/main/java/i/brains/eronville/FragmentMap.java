@@ -1,6 +1,7 @@
 package i.brains.eronville;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
@@ -31,14 +32,11 @@ import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.jaygoo.widget.OnRangeChangedListener;
-import com.jaygoo.widget.RangeSeekBar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -75,8 +73,8 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
         if (bnd != null) {
             state = getArguments().getString("state");
             city = getArguments().getString("city");
-            if (city.equals(" ")) info.setText(String.format("Showing apartments in %s", state));
-            else info.setText(String.format("Showing apartments in %s, %s", city, state));
+            if (city.equals(" ")) info.setText(String.format("Showing agents in %s", state));
+            else info.setText(String.format("Showing agents in %s, %s", city, state));
         }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -96,7 +94,7 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
                 JSONArray array = new JSONArray(response);
                 if (array.length() == 0){
                     //empty
-                    Toast.makeText(fx, "No apartments here owned by us", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(fx, "No agents in this location", Toast.LENGTH_SHORT).show();
                 } else {
                     for (int i = 0; i < array.length(); i++){
                         JSONObject object = array.getJSONObject(i);
@@ -112,7 +110,7 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
                         double latitude = object.getDouble("latitude");
                         double longitude = object.getDouble("longitude");
 
-                        MarkerOptions options = new MarkerOptions().position(new LatLng(latitude, longitude)).icon(mapIcon(cx)).alpha(.8f);
+                        MarkerOptions options = new MarkerOptions().position(new LatLng(latitude, longitude)).icon(mapIcon(cx)).alpha(.8f).snippet(x);
 
                         map.addMarker(options);
                         list.add(new XBase(x, city, type, price, image, agent, agent_line, agent_whatsapp, latitude, longitude));
@@ -121,6 +119,17 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
                     map.setMaxZoomPreference(map.getMaxZoomLevel());
                     map.moveCamera(CameraUpdateFactory.zoomTo(5f));
                     map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(9.0820, 8.6753))); //Nigeria
+
+                    map.setOnMarkerClickListener(marker -> {
+                        Toast.makeText(fx, marker.getSnippet(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(fx, ActivityViewer.class);
+                        intent.putExtra("action", "agent");
+                        intent.putExtra("i", marker.getSnippet());
+
+                        startActivity(intent);
+                        return true;
+                    });
+
                     if (array.length() > 18) new Handler().post(() -> loadMarkers(page++));
                 }
             } catch (JSONException ignored){}
@@ -152,37 +161,17 @@ public class FragmentMap extends XFragment implements OnMapReadyCallback {
 
         @Override
         public View onFragmentCreate(LayoutInflater inflater, ViewGroup child, Bundle bundle) {
-            View view = inflater.inflate(R.layout.fragment_lookup, child, false);
+            View view = inflater.inflate(R.layout.fragment_filter, child, false);
 
             ImageView close = view.findViewById(R.id.close);
             Spinner state_spinner = view.findViewById(R.id.filter_state);
             Button filter = view.findViewById(R.id.filter_results);
-            RangeSeekBar price = view.findViewById(R.id.filter_price);
             TextView price_view = view.findViewById(R.id.filter_price_display);
 
             city_spinner = view.findViewById(R.id.filter_city);
 
             close.setOnClickListener(v -> fm.popBackStack());
-            price.setOnRangeChangedListener(new OnRangeChangedListener() {
-                @Override
-                public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
-                    x_min = String.valueOf(Math.round(leftValue));
-                    x_max = String.valueOf(Math.round(rightValue));
-                    String min = "₦" + NumberFormat.getNumberInstance().format(Math.round(leftValue));
-                    String max = "₦" + NumberFormat.getNumberInstance().format(Math.round(rightValue));
-                    price_view.setText(String.format("Price between %s and %s", min, max));
-                }
 
-                @Override
-                public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
-
-                }
-
-                @Override
-                public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
-
-                }
-            });
             filter.setOnClickListener( v-> {
                 if (city.equals("Select a state first")){
                     fm.popBackStack();

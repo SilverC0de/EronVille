@@ -57,13 +57,12 @@ public class FragmentChat extends XFragment implements AdapterView.OnItemSelecte
             }
 
             String[] from = {"price", "details"};
-            int[] to = {R.id.chat_price, R.id.chat_details};
+            int[] to = {R.id.chat_details};
 
-            SimpleAdapter adapter = new SimpleAdapter(cx, list, R.layout.xml_chat, from, to){
+            SimpleAdapter adapter = new SimpleAdapter(cx, list, R.layout.xml_agent, from, to){
                 @Override
                 public View getView(int position, View convertView, ViewGroup parent) {
                     View v = super.getView(position, convertView, parent);
-                    SimpleDraweeView image = v.findViewById(R.id.chat_image);
                     Spinner status = v.findViewById(R.id.chat_status);
                     ImageView whatsapp = v.findViewById(R.id.chat_whatsapp);
                     ImageView mail = v.findViewById(R.id.chat_mail);
@@ -100,7 +99,6 @@ public class FragmentChat extends XFragment implements AdapterView.OnItemSelecte
                         intent.setData(Uri.parse("tel:" + str_line));
                         startActivity(intent);
                     });
-                    image.setImageURI(str_image);
                     return v;
                 }
             };

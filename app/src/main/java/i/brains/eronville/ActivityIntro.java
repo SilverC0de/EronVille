@@ -20,7 +20,6 @@ import androidx.viewpager.widget.ViewPager;
 public class ActivityIntro extends XActivity {
 
     ViewPager slide;
-    Button skip, next;
     LinearLayout layout;
     int[] slides;
     TextView[] dots;
@@ -34,8 +33,6 @@ public class ActivityIntro extends XActivity {
 
         slide = findViewById(R.id.view_pager);
         layout = findViewById(R.id.layoutDots);
-        skip = findViewById(R.id.intro_skip);
-        next = findViewById(R.id.intro_next);
 
         sign_in = findViewById(R.id.sign_in);
         register = findViewById(R.id.register);
@@ -50,31 +47,15 @@ public class ActivityIntro extends XActivity {
 
         sign_in.setOnClickListener(v-> {
             startActivity(new Intent(getApplicationContext(), ActivityAccess.class));
-            finish();
         });
         register.setOnClickListener(v-> {
             startActivity(new Intent(getApplicationContext(), ActivityRegister.class));
-            finish();
         });
 
         slideAdapter = new SlideAdapter();
         slide.setAdapter(slideAdapter);
         slide.addOnPageChangeListener(slideListener);
 
-
-        skip.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ActivityRegister.class));
-            finish();
-        });
-        next.setOnClickListener(v -> {
-            int current = getItem();
-            if (current < slides.length) {
-                slide.setCurrentItem(current);
-            } else {
-                startActivity(new Intent(getApplicationContext(), ActivityRegister.class));
-                finish();
-            }
-        });
     }
 
 
@@ -108,13 +89,6 @@ public class ActivityIntro extends XActivity {
         @Override
         public void onPageSelected(int position) {
             addBottomDots(position);
-            if (position == slides.length - 1) {
-                next.setText("Start");
-                skip.setVisibility(View.INVISIBLE);
-            } else {
-                next.setText("Next");
-                skip.setVisibility(View.VISIBLE);
-            }
         }
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {}

@@ -2,6 +2,9 @@ package i.brains.eronville;
 
 import android.os.Bundle;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 public class ActivityAgent extends XActivity {
     @Override
@@ -9,10 +12,16 @@ public class ActivityAgent extends XActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agent);
 
-        LinearLayout add = findViewById(R.id.add_apartment);
+        TextView greetings = findViewById(R.id.greetings);
 
-        add.setOnClickListener(v->{
-            getSupportFragmentManager().beginTransaction().add(R.id.agent_view, new FragmentAddApartment()).addToBackStack(null).commit();
-        });
+        String time;
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+
+        if(timeOfDay < 12) time = "Good morning";
+        else if(timeOfDay < 16) time = "Good afternoon";
+        else time = "Good evening";
+
+        greetings.setText(String.format("Hi, %s", time));
     }
 }

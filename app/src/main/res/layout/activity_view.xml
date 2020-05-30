@@ -27,7 +27,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="12dp"
-            android:src="@drawable/chat" />
+            android:src="@drawable/orders" />
         <ImageView
             android:id="@+id/profile"
             android:layout_width="0dp"

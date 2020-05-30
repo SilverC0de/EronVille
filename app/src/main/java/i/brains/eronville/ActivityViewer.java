@@ -17,6 +17,12 @@ public class ActivityViewer extends XActivity {
         String action = bnd.getString("action");
         if (action != null) {
             switch (action){
+                case "agent":
+                    FragmentAgent agent = new FragmentAgent();
+                    agent.setArguments(bnd);
+                    getSupportFragmentManager().beginTransaction().add(R.id.viewer, agent).commit();
+                    Log.e("silvr -- start", String.valueOf(System.currentTimeMillis()));
+                    break;
                 case "ville":
                     FragmentVille ville = new FragmentVille();
                     ville.setArguments(bnd);

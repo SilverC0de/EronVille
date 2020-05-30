@@ -70,7 +70,7 @@ public class ActivityAccess extends XActivity {
                 e.apply();
 
                 startActivity(new Intent(getApplicationContext(), ActivityView.class));
-                finish();
+                finishAffinity();
             } else {
                 signIn.setEnabled(true);
                 signIn.setAlpha(1f);
